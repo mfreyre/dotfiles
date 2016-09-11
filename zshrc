@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+# Disable flow control to use ^ + [q,s] as mappings
+stty -ixon
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -83,3 +85,5 @@ alias chrome='open -a "Google Chrome"'
 
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

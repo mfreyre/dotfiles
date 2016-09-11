@@ -1,126 +1,189 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vundle
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-bufferline'
+Plug 'brendonrapp/smyck-vim'
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/syntastic'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth'
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sleuth'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'itchyny/lightline.vim'
-Plugin 'rking/ag.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
+call plug#end()
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - removes unused plugins; append `!` to auto-approve
-" see :h vundle for more details or wiki for FAQ
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General Settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable
 set ruler
 set showcmd
 set showmatch
 set nowrap
 set nofoldenable
-
+set hidden
 set hlsearch
 set incsearch
-nmap <space> zz
-nmap n nzz
-nmap N Nzz
-
 set clipboard=unnamed
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Indentation
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set shiftwidth=4
 set tabstop=4
 set softtabstop=4
-set shiftwidth=4
 set shiftround
 set expandtab
 set autoindent
 set backspace=indent,eol,start
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Color Scheme
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256
-colorscheme smyck
-set colorcolumn=81
-highlight ColorColumn ctermbg=235
-
-" unhighlight sign column
-highlight SignColumn cterm=NONE ctermbg=NONE
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Lightline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set noshowmode
-set laststatus=2
-set timeoutlen=0
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Line Numbering
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number
 set relativenumber
-autocmd InsertEnter * :set invrelativenumber
-autocmd InsertLeave * :set invrelativenumber
+" use absolute line numbering in insert mode
+autocmd InsertEnter,InsertLeave * :set invrelativenumber
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" YouCompleteMe
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ycm_min_num_identifier_candidate_chars = 4
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf = 0
+" Color Scheme
+set t_Co=256
+colorscheme smyck
+set colorcolumn=81,101
+highlight ColorColumn ctermbg=236
+highlight SignColumn cterm=NONE ctermbg=NONE
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Hard Mode
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-noremap <up> <NOP>
-noremap <down> <NOP>
-noremap <left> <NOP>
-noremap <right> <NOP>
-vnoremap <up> <NOP>
-vnoremap <down> <NOP>
-vnoremap <left> <NOP>
-vnoremap <right> <NOP>
-" inoremap <up> <nop>
-" inoremap <down> <nop>
-" inoremap <left> <nop>
-" inoremap <right> <nop>
+" Mappings - ^ + [q,s] only works when 'stty -ixon'
+let mapleader=' '
+nnoremap n nzz
+nnoremap N Nzz
+set pastetoggle=<leader>p
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :bd<cr>
+nnoremap <c-q> :bp<cr>
+nnoremap <c-e> :bn<cr>
+inoremap <c-q> <esc>:bp<cr>
+inoremap <c-e> <esc>:bn<cr>
+vnoremap <c-q> <esc>:bp<cr>
+vnoremap <c-e> <esc>:bn<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Custom Functions
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" strip all trailing whitespace on save (Credit to Aleks Kamko/Facebook)
-if !exists("g:fb_kill_whitespace") | let g:fb_kill_whitespace = 1 | endif
-if g:fb_kill_whitespace
-  fu! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-  endfu
-  au FileType c,cabal,cpp,haskell,javascript,php,python,ruby,readme,tex,text
-    \ au BufWritePre <buffer>
-    \ :call <SID>StripTrailingWhitespaces()
-endif
+" TComment
+nnoremap <silent> <leader>t :TComment<cr>
+vnoremap <silent> <leader>t :TComment<cr>
+
+" FZF
+cnoreabbrev fzf FZF
+nnoremap <silent> <leader>f :Files<cr>
+nnoremap <silent> <leader>g :GFiles<cr>
+nnoremap <silent> <leader>c :Commits<cr>
+nnoremap <silent> <leader>b :BCommits<cr>
+
+" gf (Etsyweb/phplib files only)
+set path=~/development/Etsyweb/phplib
+set includeexpr=substitute(v:fname,'_','/','g')
+set suffixesadd+=.php
+
+" syntastic
+let g:syntastic_quiet_messages = { 'type': 'style' }
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_error_symbol = '✘❯'
+let g:syntastic_warning_symbol = '▲❯'
+let g:syntastic_style_error_symbol = '✘❯'
+let g:syntastic_style_warning_symbol = '▲❯'
+highlight SyntasticErrorSign ctermfg=9  ctermbg=NONE
+highlight SyntasticWarningSign ctermfg=11 ctermbg=NONE
+highlight SyntasticStyleErrorSign ctermfg=9  ctermbg=NONE
+highlight SyntasticStyleWarningSign ctermfg=11 ctermbg=NONE
+
+" bufferline
+set showtabline=2
+let g:bufferline_echo = 0
+let g:bufferline_show_bufnr = 0
+let g:bufferline_modified = '✱'
+let g:bufferline_active_buffer_left = '❮'
+let g:bufferline_active_buffer_right =  '❯'
+
+" lightline
+set noshowmode
+set timeoutlen=1000
+set ttimeoutlen=0
+set laststatus=2
+let g:lightline = {
+\   'active': {
+\     'left': [ ['mode', 'paste', 'syntasticoff'],
+\               ['readonly', 'fugitive', 'modified'] ],
+\     'right': [ ['lineinfo'], ['percent'], ['fileformat', 'filetype'] ]
+\   },
+\   'tabline': {
+\     'left': [ ['bufferline'] ],
+\     'right': [ ['fileencoding'] ]
+\   },
+\   'component': {
+\     'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
+\     'lineinfo': "\ue0a1%3l:%-2v",
+\     'readonly': '%{&ft !~? "help" && &readonly ? "\ue0a2" : ""}'
+\   },
+\   'component_visible_condition': {
+\     'fileformat': 'winwidth(0) > 70'
+\   },
+\   'component_function': {
+\     'bufferline': 'LightlineBufferline',
+\     'fugitive': 'LightlineFugitive',
+\     'syntasticoff': 'LightlineSyntasticDisabled'
+\   }
+\ }
+
+" displays a buffer line using vim-bufferline in lightline's tabline. line.
+fu! LightlineBufferline()
+  call bufferline#refresh_status()
+  return join([
+  \   g:bufferline_status_info.before,
+  \   g:bufferline_status_info.current,
+  \   g:bufferline_status_info.after
+  \ ], '')
+endfu
+
+" displays current git branch in lightline using vim-fugitive
+fu! LightlineFugitive()
+  if exists('*fugitive#head')
+    return fugitive#head() !=# '' ? "\ue0a0 ".fugitive#head() : ''
+  endif
+  return ''
+endfu
+
+"displays '$' in lightline when syntastic is disabled
+fu! LightlineSyntasticDisabled()
+  let b = exists('b:syntastic_mode') ? b:syntastic_mode : ''
+  let g = exists('g:syntastic_mode_map.mode') ? g:syntastic_mode_map.mode : ''
+  return b == 'passive' || g == 'passive' ? '$' : ''
+endfu
+
+" saves cursor position, strips whitespace, then restores cursor position
+fu! StripTrailingWhitespace()
+  let l = line('.')
+  let c = col('.')
+  %s/\s\+$//e
+  call cursor(l, c)
+endfu
+autocmd BufWritePre * :call StripTrailingWhitespace()
+
+" toggles syntastic mode for buffer
+fu! SyntasticToggleBufferMode()
+  if !exists('b:syntastic_mode') || b:syntastic_mode == 'active'
+    let b:syntastic_mode = 'passive'
+  else
+    let b:syntastic_mode = 'active'
+  endif
+  echo 'Syntastic: '.b:syntastic_mode.' mode enabled for buffer'
+  SyntasticReset
+endfu
+nnoremap <silent> <leader>s :call SyntasticToggleBufferMode()<cr>
+
+" toggles display of syntastic style errors/warnings for session
+fu! SyntasticToggleStyle()
+  if exists('g:syntastic_quiet_messages.type')
+    let g:syntastic_quiet_messages = {} | echo 'Syntastic: style-check enabled'
+  else
+    let g:syntastic_quiet_messages = { 'type': 'style' }
+    echo 'Syntastic: style-check disabled'
+  endif
+  SyntasticReset
+endfu
+nnoremap <silent> <leader>z :call SyntasticToggleStyle()<cr>
 
