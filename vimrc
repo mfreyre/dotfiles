@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-bufferline'
 Plug 'brendonrapp/smyck-vim'
+Plug 'easymotion/vim-easymotion'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -11,10 +12,12 @@ Plug 'scrooloose/syntastic'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
+" filetype-specific plugins
+Plug 'mxw/vim-jsx'
 
 call plug#end()
 
-" General Settings
+" general settings
 syntax enable
 set ruler
 set showcmd
@@ -26,7 +29,7 @@ set hlsearch
 set incsearch
 set clipboard=unnamed
 
-" Indentation
+" indentation
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
@@ -35,43 +38,44 @@ set expandtab
 set autoindent
 set backspace=indent,eol,start
 
-" Line Numbering
+" line numbering
 set number
 set relativenumber
-" use absolute line numbering in insert mode
 autocmd InsertEnter,InsertLeave * :set invrelativenumber
 
-" Color Scheme
+" color scheme
 set t_Co=256
 colorscheme smyck
 set colorcolumn=81,101
 highlight ColorColumn ctermbg=236
 highlight SignColumn cterm=NONE ctermbg=NONE
 
-" Mappings - ^ + [q,s] only works when 'stty -ixon'
+" mappings
 let mapleader=' '
 nnoremap n nzz
 nnoremap N Nzz
-set pastetoggle=<leader>p
-nnoremap <leader>w :w<cr>
+nnoremap <leader>p :set invpaste<cr>
 nnoremap <leader>q :bd<cr>
-nnoremap <c-q> :bp<cr>
-nnoremap <c-e> :bn<cr>
-inoremap <c-q> <esc>:bp<cr>
-inoremap <c-e> <esc>:bn<cr>
-vnoremap <c-q> <esc>:bp<cr>
-vnoremap <c-e> <esc>:bn<cr>
+nnoremap <c-h> :bp<cr>
+nnoremap <c-l> :bn<cr>
+inoremap <c-h> <esc>:bp<cr>
+inoremap <c-l> <esc>:bn<cr>
+vnoremap <c-h> <esc>:bp<cr>
+vnoremap <c-l> <esc>:bn<cr>
 
-" TComment
-nnoremap <silent> <leader>t :TComment<cr>
-vnoremap <silent> <leader>t :TComment<cr>
+" easymotion
+map <leader> <plug>(easymotion-prefix)
 
-" FZF
+" tcomment
+nnoremap <silent> <leader>x :TComment<cr>
+vnoremap <silent> <leader>x :TComment<cr>
+
+" fzf
 cnoreabbrev fzf FZF
-nnoremap <silent> <leader>f :Files<cr>
-nnoremap <silent> <leader>g :GFiles<cr>
+nnoremap <silent> <leader>v :Files<cr>
+nnoremap <silent> <leader>d :GFiles<cr>
 nnoremap <silent> <leader>c :Commits<cr>
-nnoremap <silent> <leader>b :BCommits<cr>
+nnoremap <silent> <leader>m :BCommits<cr>
 
 " gf (Etsyweb/phplib files only)
 set path=~/development/Etsyweb/phplib
@@ -86,10 +90,10 @@ let g:syntastic_error_symbol = '✘❯'
 let g:syntastic_warning_symbol = '▲❯'
 let g:syntastic_style_error_symbol = '✘❯'
 let g:syntastic_style_warning_symbol = '▲❯'
-highlight SyntasticErrorSign ctermfg=9  ctermbg=NONE
-highlight SyntasticWarningSign ctermfg=11 ctermbg=NONE
-highlight SyntasticStyleErrorSign ctermfg=9  ctermbg=NONE
-highlight SyntasticStyleWarningSign ctermfg=11 ctermbg=NONE
+highlight SyntasticErrorSign ctermfg=0  ctermbg=9
+highlight SyntasticWarningSign ctermfg=0 ctermbg=11
+highlight SyntasticStyleErrorSign ctermfg=0 ctermbg=9
+highlight SyntasticStyleWarningSign ctermfg=0 ctermbg=11
 
 " bufferline
 set showtabline=2
@@ -129,7 +133,7 @@ let g:lightline = {
 \   }
 \ }
 
-" displays a buffer line using vim-bufferline in lightline's tabline. line.
+" displays a buffer-list using vim-bufferline in lightline's tabline
 fu! LightlineBufferline()
   call bufferline#refresh_status()
   return join([
@@ -147,7 +151,7 @@ fu! LightlineFugitive()
   return ''
 endfu
 
-"displays '$' in lightline when syntastic is disabled
+" displays '$' in lightline when syntastic is disabled
 fu! LightlineSyntasticDisabled()
   let b = exists('b:syntastic_mode') ? b:syntastic_mode : ''
   let g = exists('g:syntastic_mode_map.mode') ? g:syntastic_mode_map.mode : ''
@@ -173,7 +177,7 @@ fu! SyntasticToggleBufferMode()
   echo 'Syntastic: '.b:syntastic_mode.' mode enabled for buffer'
   SyntasticReset
 endfu
-nnoremap <silent> <leader>s :call SyntasticToggleBufferMode()<cr>
+nnoremap <silent> <leader>a :call SyntasticToggleBufferMode()<cr>
 
 " toggles display of syntastic style errors/warnings for session
 fu! SyntasticToggleStyle()
