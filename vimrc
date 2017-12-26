@@ -5,13 +5,14 @@ Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-bufferline'
 Plug 'brendonrapp/smyck-vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/syntastic'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
+Plug 'w0rp/ale'
 " filetype-specific plugins
 Plug 'mxw/vim-jsx'
 
@@ -56,12 +57,12 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap <leader>p :set invpaste<cr>
 nnoremap <leader>q :bd<cr>
-nnoremap <c-h> :bp<cr>
-nnoremap <c-l> :bn<cr>
-inoremap <c-h> <esc>:bp<cr>
-inoremap <c-l> <esc>:bn<cr>
-vnoremap <c-h> <esc>:bp<cr>
-vnoremap <c-l> <esc>:bn<cr>
+nnoremap <c-j> :bp<cr>
+nnoremap <c-k> :bn<cr>
+inoremap <c-j> <esc>:bp<cr>
+inoremap <c-k> <esc>:bn<cr>
+vnoremap <c-j> <esc>:bp<cr>
+vnoremap <c-k> <esc>:bn<cr>
 
 " easymotion
 map <leader> <plug>(easymotion-prefix)
@@ -77,23 +78,34 @@ nnoremap <silent> <leader>d :GFiles<cr>
 nnoremap <silent> <leader>c :Commits<cr>
 nnoremap <silent> <leader>m :BCommits<cr>
 
-" gf (Etsyweb/phplib files only)
-set path=~/development/Etsyweb/phplib
-set includeexpr=substitute(v:fname,'_','/','g')
-set suffixesadd+=.php
+" ale
+let g:ale_lint_delay = 350
+let g:ale_set_balloons = 0
+let g:ale_set_highlights = 0
+let g:ale_sign_error = '✘❯'
+let g:ale_sign_warning = '▲❯'
+let g:ale_sign_style_error = '✘❯'
+let g:ale_sign_style_warning = '▲❯'
+highlight ALEErrorSign ctermfg=0 ctermbg=9
+highlight ALEWarningSign ctermfg=0 ctermbg=11
+highlight ALEStyleErrorSign ctermfg=0 ctermbg=9
+highlight ALEStyleWarningSign ctermfg=0 ctermbg=11
 
-" syntastic
-let g:syntastic_quiet_messages = { 'type': 'style' }
-let g:syntastic_enable_balloons = 0
-let g:syntastic_enable_highlighting = 0
-let g:syntastic_error_symbol = '✘❯'
-let g:syntastic_warning_symbol = '▲❯'
-let g:syntastic_style_error_symbol = '✘❯'
-let g:syntastic_style_warning_symbol = '▲❯'
-highlight SyntasticErrorSign ctermfg=0  ctermbg=9
-highlight SyntasticWarningSign ctermfg=0 ctermbg=11
-highlight SyntasticStyleErrorSign ctermfg=0 ctermbg=9
-highlight SyntasticStyleWarningSign ctermfg=0 ctermbg=11
+" linters/fixers/ignores
+let g:ale_linters = {
+\     'javascript': ['eslint'],
+\     'bash': ['shellcheck'],
+\     'zsh': ['shellcheck'],
+\     'sh': ['shellcheck']
+\   }
+let g:ale_fixers = {
+\     'javascript': ['prettier']
+\   }
+let g:ale_pattern_options = {
+\     '\.min\.js$': { 'ale_linters': [], 'ale_fixers': [] },
+\     '\.min\.css$': { 'ale_linters': [], 'ale_fixers': [] }
+\   }
+let g:ale_sh_shellcheck_exclusions = 'SC2148'
 
 " bufferline
 set showtabline=2
@@ -109,29 +121,31 @@ set timeoutlen=1000
 set ttimeoutlen=0
 set laststatus=2
 let g:lightline = {
-\   'active': {
-\     'left': [ ['mode', 'paste', 'syntasticoff'],
-\               ['readonly', 'fugitive', 'modified'] ],
-\     'right': [ ['lineinfo'], ['percent'], ['fileformat', 'filetype'] ]
-\   },
-\   'tabline': {
-\     'left': [ ['bufferline'] ],
-\     'right': [ ['fileencoding'] ]
-\   },
-\   'component': {
-\     'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
-\     'lineinfo': "\ue0a1%3l:%-2v",
-\     'readonly': '%{&ft !~? "help" && &readonly ? "\ue0a2" : ""}'
-\   },
-\   'component_visible_condition': {
-\     'fileformat': 'winwidth(0) > 70'
-\   },
-\   'component_function': {
-\     'bufferline': 'LightlineBufferline',
-\     'fugitive': 'LightlineFugitive',
-\     'syntasticoff': 'LightlineSyntasticDisabled'
+\     'active': {
+\       'left': [
+\         ['mode', 'paste', 'alestatus'],
+\         ['readonly', 'fugitive', 'modified']
+\       ],
+\       'right': [ ['lineinfo'], ['percent'], ['fileformat', 'filetype'] ]
+\     },
+\     'tabline': {
+\       'left': [ ['bufferline'] ],
+\       'right': [ ['fileencoding'] ]
+\     },
+\     'component': {
+\       'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
+\       'lineinfo': "\ue0a1%3l:%-2v",
+\       'readonly': '%{&ft !~? "help" && &readonly ? "\ue0a2" : ""}'
+\     },
+\     'component_visible_condition': {
+\       'fileformat': 'winwidth(0) > 70'
+\     },
+\     'component_function': {
+\       'bufferline': 'LightlineBufferline',
+\       'fugitive': 'LightlineFugitive',
+\       'alestatus': 'LightlineALEStatus'
+\     }
 \   }
-\ }
 
 " displays a buffer-list using vim-bufferline in lightline's tabline
 fu! LightlineBufferline()
@@ -151,12 +165,18 @@ fu! LightlineFugitive()
   return ''
 endfu
 
-" displays '$' in lightline when syntastic is disabled
-fu! LightlineSyntasticDisabled()
-  let b = exists('b:syntastic_mode') ? b:syntastic_mode : ''
-  let g = exists('g:syntastic_mode_map.mode') ? g:syntastic_mode_map.mode : ''
-  return b == 'passive' || g == 'passive' ? '$' : ''
+" displays '$' or 'F' in lightline when ale is disabled or fix-enabled
+fu! LightlineALEStatus()
+  let ale_fix_enabled = exists('b:ale_fix_on_save') && b:ale_fix_on_save
+  return g:ale_enabled ? (ale_fix_enabled ? 'Ｆ' : '') : '＄'
 endfu
+nnoremap <silent> <leader>a :call ale#toggle#Toggle()<cr>
+
+" toggles ale's fix mode per buffer
+fu! ALEToggleFixMode()
+  let b:ale_fix_on_save = exists('b:ale_fix_on_save') && b:ale_fix_on_save ? 0 : 1
+endfu
+nnoremap <silent> <leader>z :call ALEToggleFixMode()<cr>
 
 " saves cursor position, strips whitespace, then restores cursor position
 fu! StripTrailingWhitespace()
@@ -166,28 +186,3 @@ fu! StripTrailingWhitespace()
   call cursor(l, c)
 endfu
 autocmd BufWritePre * :call StripTrailingWhitespace()
-
-" toggles syntastic mode for buffer
-fu! SyntasticToggleBufferMode()
-  if !exists('b:syntastic_mode') || b:syntastic_mode == 'active'
-    let b:syntastic_mode = 'passive'
-  else
-    let b:syntastic_mode = 'active'
-  endif
-  echo 'Syntastic: '.b:syntastic_mode.' mode enabled for buffer'
-  SyntasticReset
-endfu
-nnoremap <silent> <leader>a :call SyntasticToggleBufferMode()<cr>
-
-" toggles display of syntastic style errors/warnings for session
-fu! SyntasticToggleStyle()
-  if exists('g:syntastic_quiet_messages.type')
-    let g:syntastic_quiet_messages = {} | echo 'Syntastic: style-check enabled'
-  else
-    let g:syntastic_quiet_messages = { 'type': 'style' }
-    echo 'Syntastic: style-check disabled'
-  endif
-  SyntasticReset
-endfu
-nnoremap <silent> <leader>z :call SyntasticToggleStyle()<cr>
-
