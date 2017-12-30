@@ -7,7 +7,7 @@ Plug 'brendonrapp/smyck-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
@@ -168,14 +168,13 @@ endfu
 
 " displays '$' or 'F' in lightline when ale is disabled or fix-enabled
 fu! LightlineALEStatus()
-  let ale_fix_enabled = exists('b:ale_fix_on_save') && b:ale_fix_on_save
-  return g:ale_enabled ? (ale_fix_enabled ? 'Ｆ' : '') : '＄'
+  return g:ale_enabled ? (get(b:, 'ale_fix_on_save') ? 'Ｆ' : '') : '＄'
 endfu
 nnoremap <silent> <leader>a :call ale#toggle#Toggle()<cr>
 
 " toggles ale's fix mode per buffer
 fu! ALEToggleFixMode()
-  let b:ale_fix_on_save = exists('b:ale_fix_on_save') && b:ale_fix_on_save ? 0 : 1
+  let b:ale_fix_on_save = get(b:, 'ale_fix_on_save') ? 0 : 1
 endfu
 nnoremap <silent> <leader>z :call ALEToggleFixMode()<cr>
 
