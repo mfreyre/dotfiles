@@ -1,11 +1,56 @@
 # general settings
 stty -ixon
 [[ ":$PATH:" != *":$HOME/.bin:"* ]] && export PATH="$PATH:$HOME/.bin"
+export PAGER="less"
+export LESS="-R"
+export EDITOR='vim'
+export KEYTIMEOUT=1
+
+# aliases
+alias ll='ls -lh'
+alias lla='ls -lAh'
+alias ag='ag --path-to-agignore ~/.agignore'
+
+# key-bindings
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    ind="${${KEYMAP/vicmd/𝙑𝙄}/(main|viins)/❯❯}"
+    zle reset-prompt
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  function zle-keymap-select() {
+    ind="${${KEYMAP/vicmd/𝙑𝙄}/(main|viins)/❯❯}"
+    zle reset-prompt
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+  zle -N zle-keymap-select
+fi
+
+bindkey -v
+bindkey '^f' forward-word
+bindkey '^b' backward-word
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
 
 # history
-[[ -z "$HISTFILE" ]] && HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+[[ -z "$HISTFILE" ]] && export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=20000
+export SAVEHIST=$HISTSIZE
 
 setopt append_history
 setopt extended_history
@@ -15,10 +60,6 @@ setopt hist_ignore_space
 setopt hist_verify
 setopt inc_append_history
 setopt share_history
-
-# aliases
-alias ll='ls -lh'
-alias lla='ls -lAh'
 
 # third-party files
 if [[ $- == *i* ]] ; then
@@ -34,12 +75,13 @@ if [[ $- == *i* ]] ; then
 fi
 
 # theme
-ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+ind="❯❯"
+rtc="%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})"
+PROMPT=' %{$fg_bold[cyan]%}%c $(git_prompt_info)${rtc}${ind}%{$reset_color%} '
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗ "
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
 
 autoload -U compinit && compinit
