@@ -15,6 +15,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale'
 " filetype-specific plugins
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 
 call plug#end()
 
