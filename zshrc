@@ -1,6 +1,11 @@
 # general settings
 stty -ixon
 [[ ":$PATH:" != *":$HOME/.bin:"* ]] && export PATH="$PATH:$HOME/.bin"
+[[ ":$PATH:" != *":$HOME/.fzf/bin:"* ]] && export PATH="$PATH:$HOME/.fzf/bin"
+if [ -d "$HOME/opt/gradle" ]; then
+  export GRADLE_HOME="$HOME/opt/gradle"
+  PATH="$PATH:$GRADLE_HOME/bin"
+fi
 export PAGER="less"
 export LESS="-R"
 export EDITOR='vim'
@@ -63,8 +68,8 @@ setopt share_history
 
 # third-party files
 if [[ $- == *i* ]] ; then
-  source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
-  source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+  source "/home/jlai/.fzf/shell/completion.zsh" 2> /dev/null
+  source "/home/jlai/.fzf/shell/key-bindings.zsh"
 
   source "$HOME/.zsh/oh-my-zsh/completion.zsh"
   source "$HOME/.zsh/oh-my-zsh/git.zsh"

@@ -79,6 +79,11 @@ nnoremap <silent> <leader>d :GFiles<cr>
 nnoremap <silent> <leader>c :Commits<cr>
 nnoremap <silent> <leader>m :BCommits<cr>
 
+" gf (Etsyweb/phplib files only)
+set path=~/development/Etsyweb/phplib
+set includeexpr=substitute(v:fname,'_','/','g')
+set suffixesadd+=.php
+
 " ale
 let g:ale_lint_delay = 350
 let g:ale_set_balloons = 0
