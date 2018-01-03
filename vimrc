@@ -7,7 +7,7 @@ Plug 'brendonrapp/smyck-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf'
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
@@ -74,10 +74,9 @@ vnoremap <silent> <leader>x :TComment<cr>
 
 " fzf
 cnoreabbrev fzf FZF
-nnoremap <silent> <leader>v :Files<cr>
+nnoremap <silent> <leader>v :Ag<cr>
 nnoremap <silent> <leader>d :GFiles<cr>
-nnoremap <silent> <leader>c :Commits<cr>
-nnoremap <silent> <leader>m :BCommits<cr>
+nnoremap <silent> <leader>c :BCommits<cr>
 
 " gf (Etsyweb/phplib files only)
 set path=~/development/Etsyweb/phplib
