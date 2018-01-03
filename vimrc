@@ -74,7 +74,7 @@ vnoremap <silent> <leader>x :TComment<cr>
 
 " fzf
 cnoreabbrev fzf FZF
-nnoremap <silent> <leader>v :Ag<cr>
+nnoremap <silent> <leader>l :Lines<cr>
 nnoremap <silent> <leader>d :GFiles<cr>
 nnoremap <silent> <leader>c :BCommits<cr>
 
