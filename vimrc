@@ -99,6 +99,7 @@ highlight ALEStyleWarningSign ctermfg=0 ctermbg=11
 " linters/fixers/ignores
 let g:ale_linters = {
 \     'javascript': ['eslint'],
+\     'php': ['phpcs'],
 \     'bash': ['shellcheck'],
 \     'zsh': ['shellcheck'],
 \     'sh': ['shellcheck']
@@ -111,6 +112,8 @@ let g:ale_pattern_options = {
 \     '\.min\.css$': { 'ale_linters': [], 'ale_fixers': [] }
 \   }
 let g:ale_sh_shellcheck_exclusions = 'SC2148'
+let g:ale_php_phpcs_standard =
+\     expand($HOME) . '/development/Etsyweb/tests/standards/stable-ruleset.xml'
 
 " bufferline
 set showtabline=2
