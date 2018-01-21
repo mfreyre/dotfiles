@@ -159,10 +159,10 @@ let g:lightline = {
 fu! LightlineBufferline()
   call bufferline#refresh_status()
   return join([
-  \   g:bufferline_status_info.before,
-  \   g:bufferline_status_info.current,
-  \   g:bufferline_status_info.after
-  \ ], '')
+\          g:bufferline_status_info.before,
+\          g:bufferline_status_info.current,
+\          g:bufferline_status_info.after
+\        ], '')
 endfu
 
 " displays current git branch in lightline using vim-fugitive
@@ -175,7 +175,8 @@ endfu
 
 " displays '$' or 'F' in lightline when ale is disabled or fix-enabled
 fu! LightlineALEStatus()
-  return g:ale_enabled ? (get(b:, 'ale_fix_on_save') ? 'Ｆ' : '') : '＄'
+  let is_ale_enabled = get(b:, 'ale_enabled', 1) && g:ale_enabled
+  return is_ale_enabled ? (get(b:, 'ale_fix_on_save') ? 'Ｆ' : '') : '＄'
 endfu
 nnoremap <silent> <leader>a :call ale#toggle#Toggle()<cr>
 
@@ -184,6 +185,15 @@ fu! ALEToggleFixMode()
   let b:ale_fix_on_save = get(b:, 'ale_fix_on_save') ? 0 : 1
 endfu
 nnoremap <silent> <leader>z :call ALEToggleFixMode()<cr>
+
+" turn off syntax and linting if buffer is large
+fu! IsLargeBuffer()
+  if line2byte(line("$") + 1) > 1000000
+    syntax clear
+    let b:ale_enabled = 0
+  endif
+endfu
+autocmd BufWinEnter * :call IsLargeBuffer()
 
 " saves cursor position, strips whitespace, then restores cursor position
 fu! StripTrailingWhitespace()
