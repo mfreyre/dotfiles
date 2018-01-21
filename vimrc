@@ -54,6 +54,8 @@ highlight SignColumn cterm=NONE ctermbg=NONE
 
 " mappings
 let mapleader=' '
+nnoremap Q <nop>
+nnoremap q: <nop>
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap <leader>p :set invpaste<cr>
