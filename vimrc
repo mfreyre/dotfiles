@@ -3,12 +3,12 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-bufferline'
-Plug 'brendonrapp/smyck-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
 Plug '/home/jlai/.fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'jonlai/smyck-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
