@@ -3,13 +3,13 @@ stty -ixon
 [[ ":$PATH:" != *":$HOME/.bin:"* ]] && export PATH="$PATH:$HOME/.bin"
 export PAGER="less"
 export LESS="-R"
-export EDITOR='vim'
+export EDITOR="vim"
 export KEYTIMEOUT=1
 
 # aliases
-alias ll='ls -lh'
-alias lla='ls -lAh'
-alias ag='ag --path-to-agignore ~/.agignore'
+alias ll="ls -lh"
+alias lla="ls -lAh"
+alias ag="ag --path-to-agignore ~/.agignore"
 
 # key-bindings
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -31,12 +31,12 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 fi
 
 bindkey -v
-bindkey '^f' forward-word
-bindkey '^b' backward-word
-bindkey '^a' beginning-of-line
-bindkey '^e' end-of-line
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
+bindkey "^f" forward-word
+bindkey "^b" backward-word
+bindkey "^a" beginning-of-line
+bindkey "^e" end-of-line
+bindkey "^?" backward-delete-char
+bindkey "^h" backward-delete-char
 
 if [[ "${terminfo[kcuu1]}" != "" ]]; then
   autoload -U up-line-or-beginning-search
