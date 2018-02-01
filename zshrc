@@ -14,6 +14,7 @@ export KEYTIMEOUT=1
 # aliases
 alias ll="ls -lh"
 alias lla="ls -lAh"
+alias cdr='cd $(git rev-parse --show-toplevel 2>/dev/null)'
 alias ag="ag --path-to-agignore ~/.agignore"
 
 # key-bindings
