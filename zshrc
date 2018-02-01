@@ -2,7 +2,7 @@
 stty -ixon
 [[ ":$PATH:" != *":$HOME/.bin:"* ]] && export PATH="$PATH:$HOME/.bin"
 [[ ":$PATH:" != *":$HOME/.fzf/bin:"* ]] && export PATH="$PATH:$HOME/.fzf/bin"
-if [ -d "$HOME/opt/gradle" ]; then
+if [[ -d "$HOME/opt/gradle" ]] && [[ ":$PATH:" != *":$GRADLE_HOME/bin:"* ]]; then
   export GRADLE_HOME="$HOME/opt/gradle"
   PATH="$PATH:$GRADLE_HOME/bin"
 fi
