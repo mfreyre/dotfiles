@@ -14,8 +14,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
 Plug 'w0rp/ale'
 " filetype-specific plugins
+Plug 'jonlai/yajs.vim'
 Plug 'mxw/vim-jsx'
-Plug 'othree/yajs.vim'
 
 call plug#end()
 
@@ -51,8 +51,6 @@ colorscheme smyck
 set colorcolumn=81,101
 highlight ColorColumn ctermbg=236
 highlight SignColumn cterm=NONE ctermbg=NONE
-highlight def link javascriptOpSymbol Operator
-highlight def link javascriptOpSymbols Operator
 
 " mappings
 let mapleader=' '
