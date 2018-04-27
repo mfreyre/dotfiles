@@ -5,6 +5,7 @@ export PAGER="less"
 export LESS="-R"
 export EDITOR="vim"
 export KEYTIMEOUT=1
+export PATH="/usr/local/sbin:$PATH"
 
 # aliases
 alias ll="ls -lh"
@@ -69,7 +70,6 @@ if [[ $- == *i* ]] ; then
   source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
   source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
-  source "$HOME/.zsh/oh-my-zsh/completion.zsh"
   source "$HOME/.zsh/oh-my-zsh/git.zsh"
   source "$HOME/.zsh/oh-my-zsh/themes-and-appearance.zsh"
 
@@ -84,7 +84,9 @@ PROMPT=' %{$fg_bold[cyan]%}%c $(git_prompt_info)${rtc}${ind}%{$reset_color%} '
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%})%{$fg[yellow]%}✗ "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%})%{$fg[yellow]%}⚡ "
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
 
 autoload -U compinit && compinit
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:$PATH"

@@ -1,8 +1,8 @@
 [credential]
     helper = osxkeychain
 [user]
-	name = Jon Lai
-	email = jonathan@jonlai.com
+	name = Mariel Freyre
+	email = mariel.freyre@gmail.com
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore
