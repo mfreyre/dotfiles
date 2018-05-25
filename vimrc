@@ -6,7 +6,7 @@ Plug 'bling/vim-bufferline'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
-Plug '/usr/local/opt/fzf'
+Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'jonlai/smyck-vim'
 Plug 'tomtom/tcomment_vim'
@@ -67,6 +67,12 @@ inoremap <c-k> <esc>:bn<cr>
 vnoremap <c-j> <esc>:bp<cr>
 vnoremap <c-k> <esc>:bn<cr>
 
+" gitgutter
+let g:gitgutter_async = 0
+
+"slime
+let g:slime_target="tmux"
+
 " easymotion
 map <leader> <plug>(easymotion-prefix)
 
@@ -78,10 +84,9 @@ vnoremap <silent> <leader>x :TComment<cr>
 cnoreabbrev fzf FZF
 nnoremap <silent> <leader>l :Lines<cr>
 nnoremap <silent> <leader>d :GFiles<cr>
-nnoremap <silent> <leader>c :BCommits<cr>
+"nnoremap <silent> <leader>c :BCommits<cr>
 
 " ale
-let g:ale_lint_delay = 350
 let g:ale_set_balloons = 0
 let g:ale_set_highlights = 0
 let g:ale_sign_error = '✘❯'
@@ -96,6 +101,7 @@ highlight ALEStyleWarningSign ctermfg=0 ctermbg=11
 " linters/fixers/ignores
 let g:ale_linters = {
 \     'javascript': ['eslint'],
+\     'php': ['phpcs'],
 \     'bash': ['shellcheck'],
 \     'zsh': ['shellcheck'],
 \     'sh': ['shellcheck']
@@ -108,7 +114,8 @@ let g:ale_pattern_options = {
 \     '\.min\.css$': { 'ale_linters': [], 'ale_fixers': [] }
 \   }
 let g:ale_sh_shellcheck_exclusions = 'SC2148'
-
+let g:ale_php_phpcs_standard =
+\     expand($HOME) . '/development/Etsyweb/tests/standards/stable-ruleset.xml'
 " bufferline
 set showtabline=2
 let g:bufferline_echo = 0
@@ -189,11 +196,16 @@ fu! IsLargeBuffer()
 endfu
 autocmd BufWinEnter * :call IsLargeBuffer()
 
-" saves cursor position, strips whitespace, then restores cursor position
+" strip whitespace while preserving cursor position, for all non-markdown files
 fu! StripTrailingWhitespace()
+  if &ft =~ 'markdown'
+    return
+  endif
   let l = line('.')
   let c = col('.')
   %s/\s\+$//e
   call cursor(l, c)
 endfu
+highlight TrailingWhitespace ctermfg=7 ctermbg=7
+autocmd FileType markdown syn match TrailingWhitespace /\s\+$/
 autocmd BufWritePre * :call StripTrailingWhitespace()

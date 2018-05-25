@@ -12,6 +12,12 @@ alias ll="ls -lh"
 alias lla="ls -lAh"
 alias cdr='cd $(git rev-parse --show-toplevel 2>/dev/null)'
 alias ag="ag --path-to-agignore ~/.agignore"
+alias gcm="git commit -m"
+alias gap="git add -p"
+alias gists="git diff --staged | gitst -t diff"
+alias gcan="git commit --amend --no-edit"
+alias gca="git commit --amend"
+alias gco="git checkout"
 
 # key-bindings
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
