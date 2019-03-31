@@ -76,6 +76,7 @@ if [[ $- == *i* ]] ; then
   source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
   source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
+  source "$HOME/.zsh/oh-my-zsh/completion.zsh"
   source "$HOME/.zsh/oh-my-zsh/git.zsh"
   source "$HOME/.zsh/oh-my-zsh/themes-and-appearance.zsh"
 

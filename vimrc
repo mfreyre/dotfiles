@@ -21,6 +21,7 @@ call plug#end()
 
 " general settings
 syntax enable
+syntax on
 set ruler
 set showcmd
 set showmatch
