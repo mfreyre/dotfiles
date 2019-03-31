@@ -8,7 +8,8 @@ Plug 'ervandew/supertab'
 Plug 'itchyny/lightline.vim'
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'jonlai/smyck-vim'
+" Plug 'jonlai/smyck-vim'
+Plug 'junegunn/seoul256.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
@@ -48,7 +49,8 @@ autocmd InsertEnter,InsertLeave * :set invrelativenumber
 
 " color scheme
 set t_Co=256
-colorscheme smyck
+" colorscheme smyck
+color seoul256
 set colorcolumn=81,101
 highlight ColorColumn ctermbg=236
 highlight SignColumn cterm=NONE ctermbg=NONE
@@ -67,6 +69,7 @@ inoremap <c-j> <esc>:bp<cr>
 inoremap <c-k> <esc>:bn<cr>
 vnoremap <c-j> <esc>:bp<cr>
 vnoremap <c-k> <esc>:bn<cr>
+nnoremap <leader>g :w<cr>
 
 " gitgutter
 let g:gitgutter_async = 0
@@ -76,6 +79,8 @@ let g:slime_target="tmux"
 
 " easymotion
 map <leader> <plug>(easymotion-prefix)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
 
 " tcomment
 nnoremap <silent> <leader>x :TComment<cr>
@@ -154,7 +159,8 @@ let g:lightline = {
 \       'bufferline': 'LightlineBufferline',
 \       'fugitive': 'LightlineFugitive',
 \       'alestatus': 'LightlineALEStatus'
-\     }
+\     },
+\     'colorscheme': 'seoul256',
 \   }
 
 " displays a buffer-list using vim-bufferline in lightline's tabline
