@@ -5,19 +5,22 @@ export PAGER="less"
 export LESS="-R"
 export EDITOR="vim"
 export KEYTIMEOUT=1
-export PATH="/usr/local/sbin:$PATH"
 
 # aliases
 alias ll="ls -lh"
 alias lla="ls -lAh"
 alias cdr='cd $(git rev-parse --show-toplevel 2>/dev/null)'
-alias ag="ag --path-to-agignore ~/.agignore"
+alias pbcopy='xclip -sel clip'
+
+# git aliases
 alias gcm="git commit -m"
 alias gap="git add -p"
-alias gists="git diff --staged | gitst -t diff"
+alias gists="git diff --staged | gist -t diff"
 alias gcan="git commit --amend --no-edit"
 alias gca="git commit --amend"
 alias gco="git checkout"
+alias vsql="/opt/vertica/bin/vsql -h vertica-prod -U mfreyre"
+alias notebook="jupyter notebook --ip=0.0.0.0 --port=5678 --no-browser"
 
 # key-bindings
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -73,9 +76,6 @@ setopt share_history
 
 # third-party files
 if [[ $- == *i* ]] ; then
-  source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
-  source "/usr/local/opt/fzf/shell/key-bindings.zsh"
-
   source "$HOME/.zsh/oh-my-zsh/completion.zsh"
   source "$HOME/.zsh/oh-my-zsh/git.zsh"
   source "$HOME/.zsh/oh-my-zsh/themes-and-appearance.zsh"
@@ -84,16 +84,33 @@ if [[ $- == *i* ]] ; then
   source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# theme
-ind="❯❯"
-rtc="%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})"
-PROMPT=' %{$fg_bold[cyan]%}%c $(git_prompt_info)${rtc}${ind}%{$reset_color%} '
+# theme old
+# ind="❯❯"
+# rtc="%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})"
+# PROMPT=' %{$fg_bold[cyan]%}%c $(git_prompt_info)${rtc}${ind}%{$reset_color%} '
+#
+# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+# ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%})%{$fg[yellow]%}✗ "
+# ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
+#
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%})%{$fg[yellow]%}⚡ "
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
+#new theme
+local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 
 autoload -U compinit && compinit
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+#Anaconda time
+export PATH="/home/mfreyre/anaconda3:bin$PATH"
