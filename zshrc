@@ -19,8 +19,11 @@ alias gists="git diff --staged | gist -t diff"
 alias gcan="git commit --amend --no-edit"
 alias gca="git commit --amend"
 alias gco="git checkout"
+
+#aliases
 alias vsql="/opt/vertica/bin/vsql -h vertica-prod -U mfreyre"
 alias notebook="jupyter notebook --ip=0.0.0.0 --port=5678 --no-browser"
+alias byebye="/usr/local/Cellar/pipes-sh/1.3.0/bin/pipes.sh"
 
 # key-bindings
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -104,7 +107,6 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 
-autoload -U compinit && compinit
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -112,5 +114,9 @@ autoload -U compinit && compinit
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-#Anaconda time
-export PATH="/home/mfreyre/anaconda3:bin$PATH"
+autoload -U compinit && compinit
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
